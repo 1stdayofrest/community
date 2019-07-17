@@ -33,4 +33,13 @@ public class DiscussPostService {
         return discussPostMapper.selectDiscussPosts(userId, offset, limit);
     }
 
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    public int findDiscussPostRows(int userId) {
+        return discussPostMapper.selectDiscussPostRows(userId);
+    }
+
 }
