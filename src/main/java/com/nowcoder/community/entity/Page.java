@@ -9,6 +9,7 @@ package com.nowcoder.community.entity;
  *getTotal：获取总页数rows/limit （+1）
  * getFrom return current - 2  < 1 ? 1 : current - 2;
  * getTo return current + 2 > total?  total : current + 2 ; int total = getTotal();
+ * 这些参数都是在哪里传进去，又是怎么用的？ 下一步改造HomeController
  */
 public class Page {
     //当前页码
