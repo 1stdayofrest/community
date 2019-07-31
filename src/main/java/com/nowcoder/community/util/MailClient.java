@@ -14,7 +14,7 @@ import javax.mail.internet.MimeMessage;
 /**
  * 创建工具类
  * Component注解
- * 需要用spring容器来关机
+ * 需要用spring容器来
  * 通用的Bean，Component注解
  *
  */

@@ -1,6 +1,6 @@
 package com.nowcoder.community.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * 要访问一个表，首先写一个实体类
@@ -99,7 +99,7 @@ public class User {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(java.util.Date createTime) {
         this.createTime = createTime;
     }
 
