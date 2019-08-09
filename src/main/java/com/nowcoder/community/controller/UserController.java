@@ -102,7 +102,7 @@ public class UserController {
         //解析服务器存放路径
         fileName = uploadPath + "/" + fileName;
         //读取文件后缀,因为向浏览器输出的是图片，所以需要根据图片格式进行设置
-        String suffix = fileName.substring(fileName.lastIndexOf('.'));
+        String suffix = fileName.substring(fileName.lastIndexOf('.') + 1);
         //给response设置响应图片
         response.setContentType("image/" + suffix);
         //图片是二进制，需要字节流
