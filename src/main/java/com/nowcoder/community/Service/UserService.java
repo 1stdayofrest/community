@@ -100,7 +100,7 @@ public class UserService implements CommunityConstant {
         user.setStatus(0);
         user.setActivationCode(CommunityUtils.generateUUID());
         user.setCreateTime(new Date());
-        user.setHeaderUrl(String.format("images.nowcoder.com/head/%dt.png",new Random().nextInt(1000)));
+        user.setHeaderUrl(String.format("http://images.nowcoder.com/head/%dt.png",new Random().nextInt(1000)));
         userMapper.insertUser(user);
 
         /**
@@ -152,7 +152,7 @@ public class UserService implements CommunityConstant {
      * @param expiredSeconds
      * @return
      */
-     public Map<String, Object> login(String username, String password, int expiredSeconds) {
+     public Map<String, Object> login(String username, String password, long expiredSeconds) {
          Map<String, Object> map = new HashMap<>();
         //控制处理
          if (StringUtils.isBlank(username)) {
@@ -203,5 +203,11 @@ public class UserService implements CommunityConstant {
 
      public void logout(String ticket) {
          loginTicketMapper.updateStatus(ticket,1);
+     }
+     public LoginTicket findLoginTicket(String ticket) {
+        return loginTicketMapper.selectByTicket(ticket);
+     }
+     public int updateHeader(int userId, String headerUrl) {
+         return userMapper.updateHeader(userId,headerUrl);
      }
 }
