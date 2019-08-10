@@ -1,6 +1,7 @@
 package com.nowcoder.community.controller;
 
 import com.nowcoder.community.Service.UserService;
+import com.nowcoder.community.annotation.LoginRequired;
 import com.nowcoder.community.entity.User;
 import com.nowcoder.community.util.CommunityUtils;
 import com.nowcoder.community.util.HostHolder;
@@ -9,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +40,7 @@ public class UserController {
     @Value("${community.path.domain}")
     private String domain;
 
+    @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
     public String getSitePage() {
         return "site/setting";
@@ -50,6 +51,7 @@ public class UserController {
      * @param headerImage SpringMVC提供的专有类型，页面如果传入多个就用MultipartFile数组
      * @return
      */
+    @LoginRequired
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public String uploadHeader(MultipartFile headerImage, Model model) {
         if (headerImage == null) {
@@ -103,7 +105,7 @@ public class UserController {
         fileName = uploadPath + "/" + fileName;
         //读取文件后缀,因为向浏览器输出的是图片，所以需要根据图片格式进行设置
         String suffix = fileName.substring(fileName.lastIndexOf('.') + 1);
-        //给response设置响应图片
+        //给response设置响应图片response.setContentType("image/png")
         response.setContentType("image/" + suffix);
         //图片是二进制，需要字节流
         //放在这个括号里，在执行完try-catch之后会自动关闭，释放资源
@@ -118,6 +120,7 @@ public class UserController {
             byte[] buffer = new byte[1024];
             int b = 0;
             while ((b = fis.read(buffer)) != -1) {
+                //从0开始一直到读完（ b = -1）
                 os.write(buffer,0,b);
             }
 
@@ -133,5 +136,30 @@ public class UserController {
             }
         }
 
+    }
+    @LoginRequired
+    @RequestMapping(path = "/updatePassword",method = RequestMethod.POST)
+    public String updatePassword(Model model,String oldPassword, String newPassword) {
+        /**
+         * 传入新密码和旧密码
+         * 1、输出新、旧密码不能为空
+         * 2、判断旧密码是否正确
+         * 3、更改密码(加密)
+         */
+        if (StringUtils.isBlank(oldPassword)){
+            model.addAttribute("oldPasswordMsg","请输入原始密码");
+            return "/site/setting";
+        }
+        if (StringUtils.isBlank(newPassword)) {
+            model.addAttribute("newPasswordMsg","密码不能为空");
+            return "/site/setting";
+        }
+        User user = hostHolder.getUser();
+        if (!CommunityUtils.md5(oldPassword + user.getSalt()).equals(user.getPassword())) {
+            model.addAttribute("oldPasswordMsg","密码错误");
+            return "/site/setting";
+        }
+        userService.updatePassword(user.getId(),newPassword);
+        return "redirect:/index";
     }
 }
