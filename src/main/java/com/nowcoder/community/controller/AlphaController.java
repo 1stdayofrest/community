@@ -180,4 +180,19 @@ public class AlphaController {
         return "get session";
     }
 
+    /**
+     * 静态网页
+     * ajax示例
+     * @param name
+     * @param age
+     * @return
+     */
+    @RequestMapping(path = "/ajax", method = RequestMethod.POST)
+    @ResponseBody
+    public String testAjax(String name, int age) {
+        System.out.println(name);
+        System.out.println(age);
+        return CommunityUtils.getJSONString(0,"操作成功!!!");
+    }
+
 }

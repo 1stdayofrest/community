@@ -78,4 +78,18 @@ public class MapperTests {
         loginTicket = loginTicketMapper.selectByTicket("abc");
         System.out.println(loginTicket);
     }
+    @Test
+    public void insertDiscussPost() {
+        DiscussPost post = new DiscussPost();
+        post.setUserId(158);
+        post.setTitle("xxx");
+        post.setContent("xxx");
+        post.setCreateTime(new Date());
+
+        discussPostMapper.insertDiscussPost(post);
+    }
+    @Test
+    public void testSelectDiscussPostById() {
+        System.out.println(discussPostMapper.selectDiscussPostById(146));;
+    }
 }

@@ -1,8 +1,10 @@
 package com.nowcoder.community.util;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.DigestUtils;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -18,5 +20,34 @@ public class CommunityUtils {
         if(StringUtils.isBlank(key))
             return null;
         return DigestUtils.md5DigestAsHex(key.getBytes());
+    }
+
+    /**
+     * 用于ajax
+     * 获取JSON字符串
+     * @param code JSON编号
+     * @param Msg 返回的信息
+     * @param map 封装在Map中的信息
+     * @return 返回的JSON格式的字符串
+     */
+    public static String getJSONString(int code, String Msg, Map<String, Object> map) {
+        //TODO 新建JSON对象
+        JSONObject json = new JSONObject();
+        //TODO 把传入的参数装到JSON对象中
+        json.put("code",code);
+        json.put("Msg",Msg);
+        if (map != null) {
+            for (String key : map.keySet()) {
+                json.put(key, map.get(key));
+            }
+        }
+        //TODO 返回JSON字符串
+        return json.toString();
+    }
+    public static String getJSONString(int code, String Msg) {
+        return getJSONString(code, Msg, null);
+    }
+    public static String getJSONString(int code) {
+        return getJSONString(code,null,null);
     }
 }
