@@ -59,6 +59,13 @@ public class RegisterController implements CommunityConstant {
             return "/site/register";
         }
     }
+
+    /**
+     * @param model
+     * @param userId
+     * @param code
+     * @return
+     */
     //http://localhost:8080/activation/{userId}/code
     @RequestMapping(path = "activation/{userId}/{code}",method = RequestMethod.GET)
     public String activation(Model model, @PathVariable("userId") int userId,@PathVariable("code") String code) {

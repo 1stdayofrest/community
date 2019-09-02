@@ -83,8 +83,9 @@ public class Page {
      * @return
      */
     public int getTotal() {
-        if (rows % limit == 0)
+        if (rows % limit == 0){
             return rows/limit;
+        }
         return rows/limit + 1;
     }
 

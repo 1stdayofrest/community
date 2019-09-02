@@ -8,6 +8,7 @@ import com.nowcoder.community.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -16,6 +17,7 @@ import java.util.*;
 /**
  * Controller的访问路径可以省略
  * 注入Service
+ * @author lizhaoquan
  * @RequestMapping(path = "/index",method = RequestMethod.GET)，增加处理请求的方法
  * 定义访问路径，“/index”
  * 不加@ResponseBody，因为响应的是html，可以返回ModelAndView,也可以是String（视图的名字）
@@ -45,7 +47,7 @@ public class HomeController {
      * 它在注入数据之外，会自动把Page注入给Model
      * 所以thymeleaf中可以直接访问Page对象中的数据
      */
-    @RequestMapping(path = "/index",method = RequestMethod.GET)
+    @GetMapping("/index")
     public String getIndexPage(Model model, Page page) {
         /**
          * 设置page
@@ -57,7 +59,7 @@ public class HomeController {
         List<Map<String,Object>> discussPosts = new ArrayList<>();
         if (list != null) {
             for (DiscussPost post:list){
-                Map<String,Object> map = new HashMap<>();
+                Map<String,Object> map = new HashMap<>(2);
                 map.put("post",post);
                 User user = userService.findUserById(post.getUserId());
                 map.put("user",user);

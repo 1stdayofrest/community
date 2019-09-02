@@ -126,6 +126,13 @@ public class ControllerDemo1 {
     @ResponseBody
     public Map<String, Object> getemp() {
         Map<String, Object> emp = new HashMap<>();
+        for (Map.Entry map : emp.entrySet()) {
+
+        }
+        for (String key: emp.keySet()) {
+
+        }
+
         emp.put("姓名","常菊");
         emp.put("道歉","对不起");
         return emp;
